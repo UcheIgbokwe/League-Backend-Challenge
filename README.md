@@ -1,6 +1,6 @@
 # League Backend Challenge
 
-A Web API designed to resolve the following request labelled 1-4.
+A Web API designed to resolve the following request labelled 1-5.
 
 This solution is built using .NET 5.
 
