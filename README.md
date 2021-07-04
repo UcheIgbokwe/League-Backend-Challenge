@@ -54,19 +54,26 @@ The input file to these functions is a matrix, of any dimension where the number
 
 ## GUIDE
 Run Web API
+
 ```
 Navigate into the API folder
 ```
 
-run: dotnet run
+Run Application
+```
+dotnet run
 ```
 
 Send request via Postman/Swagger
 ```
 GET http://localhost:5000/api/Echo/Echo
+Result displays on the console.
 ```
 
-Result displays on the console.
+Run Test
+```
+Navigate into the Tests folder
+dotnet test
 ```
 
 ## What we're looking for
