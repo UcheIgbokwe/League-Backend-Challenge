@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Application.Contracts;
 using MathNet.Numerics.LinearAlgebra;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,45 +12,59 @@ namespace API.Controllers
     [ApiController]
     public class EchoController : ControllerBase
     {
+        private readonly IDoWork _doWork;
+        public EchoController(IDoWork doWork)
+        {
+            _doWork = doWork;
+
+        }
+        
         /// <summary>
         /// Return the matrix as a string in matrix format..
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpGet("GetResult")]
-        //[ProducesResponseType(typeof(PinValidationDTO), statusCode: 200)]
-        public async Task<IActionResult> GetResult()
+        [HttpGet("Echo")]
+        public async Task<IActionResult> Echo()
         {
             try
             {
-                var file = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "matrix.csv");
-                using(var reader = new StreamReader(file))
-                {
-                    List<string> listA = new List<string>();
-                    List<string> listB = new List<string>();
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var values = line.Split(';');
+                //ECHO & INVERT
+                var result = await _doWork.Implement();
+                //FLATTEN
+                var result2 = await _doWork.Flatten();
+                //SUM
+                var result3 = await _doWork.Sum();
+                //PRODUCT
+                var result4 = await _doWork.Product();
 
-                        listA.Add(values[0]);
-                    }
-                }
 
-                double[][] biglist = new double[3][];
+                //ECHO
+                Matrix<double> echo = Matrix<double>.Build.DenseOfRows(result);
+                //INVERT
+                Matrix<double> inverted = Matrix<double>.Build.DenseOfColumns(result);
 
-                biglist[0] = new double[] { 1, 2, 3, 4, 5 };
-                biglist[1] = new double[] { 5, 3, 3, 2, 1 };
-                biglist[2] = new double[] { 3, 4, 4, 5, 2 };
+                Console.WriteLine("ECHO");
+                Console.WriteLine(echo);
+                Console.WriteLine("INVERTED");
+                Console.WriteLine(inverted);
+                Console.WriteLine("FLATTEN");
+                Console.WriteLine(String.Join(",", result2));
+                Console.WriteLine(" ");
+                Console.WriteLine("SUM OF MATRIX");
+                Console.WriteLine(result3);
+                Console.WriteLine(" ");
+                Console.WriteLine("PRODUCT OF MATRIX");
+                Console.WriteLine(result4);
 
-                Matrix<double> matrix = Matrix<double>.Build.DenseOfColumns(biglist);
-                Console.WriteLine(matrix);
-                return Ok(matrix);
+
+                return Ok("Result is displayed in console.");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

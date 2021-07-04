@@ -51,14 +51,22 @@ Given an uploaded csv file
 
 The input file to these functions is a matrix, of any dimension where the number of rows are equal to the number of columns (square). Each value is an integer, and there is no header row. matrix.csv is example valid input.  
 
-Run web server
+
+## GUIDE
+Run Web API
 ```
-go run .
+Navigate into the API folder
 ```
 
-Send request
+run: dotnet run
 ```
-curl -F 'file=@/path/matrix.csv' "localhost:8080/echo"
+
+Send request via Postman/Swagger
+```
+GET http://localhost:5000/api/Echo/Echo
+```
+
+Result displays on the console.
 ```
 
 ## What we're looking for
