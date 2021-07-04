@@ -21,7 +21,7 @@ namespace Infrastructure.Services
             try
             {
                 double[][] biglist = new double[3][];
-                var file = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "matrix.csv");
+                var file = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "matrixX.csv");
                 using(var reader = new StreamReader(file))
                 {
                     double[] terms = new double[3];
